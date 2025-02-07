@@ -75,7 +75,10 @@ class ProductListScreen extends StatelessWidget {
                                 Text(
                                   category.title,
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: category.id ==
+                                            controller.selectedCategoryId.value
+                                        ? FontWeight.bold
+                                        : FontWeight.w300,
                                     color: category.id ==
                                             controller.selectedCategoryId.value
                                         ? Colors.teal
