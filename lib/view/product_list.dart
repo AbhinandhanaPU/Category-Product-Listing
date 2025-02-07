@@ -20,7 +20,7 @@ class ProductListScreen extends StatelessWidget {
             Obx(
               () {
                 return SizedBox(
-                  height: 125,
+                  height: 115,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.categories.length,
@@ -35,18 +35,16 @@ class ProductListScreen extends StatelessWidget {
                           () => Container(
                             padding: const EdgeInsets.all(5),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CircleAvatar(
-                                  radius: 42,
+                                  radius: 37,
                                   backgroundColor: category.id ==
                                           controller.selectedCategoryId.value
                                       ? Colors.teal
                                       : Colors.grey.shade200,
                                   child: CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: Colors
-                                        .white, // Optional: Set a default background color
+                                    radius: 35,
+                                    backgroundColor: Colors.white,
                                     child: ClipOval(
                                       child: Image.network(
                                         category.image,
@@ -78,7 +76,6 @@ class ProductListScreen extends StatelessWidget {
                                   category.title,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
                                     color: category.id ==
                                             controller.selectedCategoryId.value
                                         ? Colors.teal
@@ -88,7 +85,7 @@ class ProductListScreen extends StatelessWidget {
                                 category.id ==
                                         controller.selectedCategoryId.value
                                     ? Container(
-                                        height: 5,
+                                        height: 4,
                                         width: 80,
                                         color: Colors.teal,
                                       )
@@ -107,14 +104,17 @@ class ProductListScreen extends StatelessWidget {
             // Product List Grid
             Expanded(
               child: Obx(() {
-                if (controller.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
-                }
                 return GridView.builder(
-                  itemCount: controller.products.length,
+                  controller: controller.scrollController,
+                  itemCount: controller.products.length + 1,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, childAspectRatio: 0.9),
                   itemBuilder: (context, index) {
+                    if (index == controller.products.length) {
+                      return controller.isLoadingMore.value
+                          ? const Center(child: CircularProgressIndicator())
+                          : const SizedBox.shrink();
+                    }
                     final product = controller.products[index];
                     return Container(
                       decoration: BoxDecoration(
